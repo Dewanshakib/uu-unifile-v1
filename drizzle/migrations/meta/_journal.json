@@ -1,0 +1,48 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1770837269612,
+      "tag": "0000_added_models_by_better_auth",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1770837633275,
+      "tag": "0001_updated_user_model",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1770837804643,
+      "tag": "0002_updated_user_model",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1770838575482,
+      "tag": "0003_removed_password_property",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1771095097379,
+      "tag": "0004_added_more_role",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1771095666649,
+      "tag": "0005_added_more_tables",
+      "breakpoints": true
+    }
+  ]
+}
