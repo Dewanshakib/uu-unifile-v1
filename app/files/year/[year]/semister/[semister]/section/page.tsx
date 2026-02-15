@@ -3,7 +3,7 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import Link from "next/link";
 
-export default async function SectionPage() {
+export default async function SectionPage({params}:{params:Promise<{year:number,semister:number}>}) {
   const sections = [
     { id: 1, name: "A" },
     { id: 2, name: "B" },
@@ -15,8 +15,12 @@ export default async function SectionPage() {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
-
+  
+  const {year,semister} = await params;
+ 
   const dynamicSection = session?.user.section as string;
+
+  // console.log(year,semister)
 
   return (
     <div className="mt-5 px-5">
@@ -28,7 +32,7 @@ export default async function SectionPage() {
             s.name === dynamicSection && (
               <Link
                 key={s.id}
-                href={`/files/year/1/semister/1/section/${s.name}/category`}
+                href={`/files/year/${year}/semister/${semister}/section/${dynamicSection}/category`}
               >
                 <Card className="p-10 hover:scale-[108%] duration-200">
                   <CardContent>

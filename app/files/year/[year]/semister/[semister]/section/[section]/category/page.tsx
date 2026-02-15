@@ -7,15 +7,16 @@ import Link from "next/link";
 export default async function CategoryPage({
   params,
 }: {
-  params: Promise<{ section: string }>;
+  params: Promise<{ section: string,year:number, semister:number }>;
 }) {
-  const { section } = await params;
+  const { section,semister,year } = await params;
 
   // Drizzle — clean, fast, typed
   const categories = await db
     .select()
     .from(category)
     .orderBy(asc(category.name));
+    // console.log(section,semister,year);
 
   return (
     <div className="mt-5">
@@ -25,9 +26,7 @@ export default async function CategoryPage({
         {categories.length > 0 ? (
           categories.map((c) => (
             <Link
-              href={`/files/year/1/semister/1/section/${section}/category/${encodeURIComponent(
-                c?.name?.trim() as string
-              )}/files`}
+              href={`/files/year/${year}/semister/${semister}/section/${section}/category/${c.name}/files`}
               key={c.id}
             >
               <Card className="p-10">

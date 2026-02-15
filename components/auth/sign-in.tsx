@@ -48,7 +48,7 @@ export default function SignIn() {
       toast.success("Sign In successful");
       router.push("/");
     } catch (error) {
-      console.log(error instanceof Error ? error.message : "Server error");
+      // console.log(error instanceof Error ? error.message : "Server error");
       throw new Error(error instanceof Error ? error.message : "Server error");
     }
   };

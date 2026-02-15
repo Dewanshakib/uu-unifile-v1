@@ -39,6 +39,9 @@ export default async function Files({
     )
     .orderBy(asc(file.title));
 
+    // console.log("Files ===============>",files);
+    // console.log(year, semister, section, category)
+
   return (
     <div className="mt-5">
       <h2 className="text-2xl font-semibold mb-5">Files</h2>
