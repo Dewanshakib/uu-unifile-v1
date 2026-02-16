@@ -10,8 +10,10 @@ import { Input } from "@/components/ui/input";
 import { db } from "@/drizzle/db";
 import { googleClassroom } from "@/drizzle/schema";
 import { eq } from "drizzle-orm";
-import { Trash2 } from "lucide-react";
+import { Trash2, Edit } from "lucide-react";
+import { Route } from "next";
 import { revalidatePath } from "next/cache";
+import Link from "next/link";
 
 export default async function GoogleClassroomContent() {
   const googleClassrooms = await db.select().from(googleClassroom);
@@ -61,16 +63,25 @@ export default async function GoogleClassroomContent() {
                 </div>
               </CardContent>
               <CardFooter>
-                <form action={deleteGoogleClassroom} className="w-full">
-                  <Input type="hidden" value={g.id} name="id" />
-                  <Button
-                    type="submit"
-                    variant="destructive"
-                    className="w-full"
-                  >
-                    Delete <Trash2 className="ml-2 h-4 w-4" />
-                  </Button>
-                </form>
+                <div className="flex gap-2 w-full flex-1">
+                  <Link href={`/dashboard/google-classroom/edit-google-classroom/${g.id}` as Route}>
+                    <Button variant="outline" className="w-full">
+                      <Edit className="mr-2 h-4 w-4" />
+                      Edit
+                    </Button>
+                  </Link>
+                  <form action={deleteGoogleClassroom} className="flex-1">
+                    <Input type="hidden" value={g.id} name="id" />
+                    <Button
+                      type="submit"
+                      variant="destructive"
+                      className="w-full"
+                    >
+                      <Trash2 className="ml-2 h-4 w-4" />
+                      Delete
+                    </Button>
+                  </form>
+                </div>
               </CardFooter>
             </Card>
           ))}

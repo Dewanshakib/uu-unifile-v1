@@ -4,8 +4,10 @@ import { Input } from "@/components/ui/input";
 import { db } from "@/drizzle/db";
 import { file } from "@/drizzle/schema";
 import { eq } from "drizzle-orm";
-import { Trash } from "lucide-react";
+import { Trash, Edit } from "lucide-react";
+import { Route } from "next";
 import { revalidatePath } from "next/cache";
+import Link from "next/link";
 
 export default async function FileContent() {
   const files = await db.select().from(file);
@@ -49,16 +51,24 @@ export default async function FileContent() {
                     <span className="font-medium">{file.semester}</span>
                   </h2>
 
-                  <form action={deleteFile} className="mt-auto">
-                    <Input name="id" type="hidden" value={file.id} />
-                    <Button
-                      type="submit"
-                      className="w-full"
-                      variant={"destructive"}
-                    >
-                      Delete <Trash />
-                    </Button>
-                  </form>
+                  <div className="grid grid-cols-1 gap-y-2 md:grid-cols-2 md:gap-y-0 md:gap-x-2 mt-5">
+                    <Link className="w-full block flex-1" href={`/dashboard/file/edit-file/${file.id as number}` as Route}>
+                      <Button className="w-full" variant="secondary" size="sm">
+                       Edit <Edit className="h-4 w-4" />
+                      </Button>
+                    </Link>
+                    <form action={deleteFile} className="">
+                      <Input name="id" type="hidden" value={file.id} />
+                      <Button
+                        type="submit"
+                        className="w-full"
+                        variant={"destructive"}
+                        size="sm"
+                      >
+                       Remove <Trash className="h-4 w-4" />
+                      </Button>
+                    </form>
+                  </div>
                 </div>
               </CardContent>
             </Card>

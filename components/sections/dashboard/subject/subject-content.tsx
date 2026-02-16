@@ -6,6 +6,7 @@ import { subject } from "@/drizzle/schema";
 import { eq } from "drizzle-orm";
 import { TrashIcon } from "lucide-react";
 import { revalidatePath } from "next/cache";
+import EditSubject from "./edit-subject-ui";
 
 export default async function SubjectContent() {
   const subjects = await db.select().from(subject);
@@ -29,16 +30,19 @@ export default async function SubjectContent() {
                   <h2 className="font-medium text-lg flex flex-row items-center gap-x-2">
                     {idx + 1}. {subject.name}
                   </h2>
-                  <form action={deleteSubject}>
-                    <Input name="id" type="hidden" value={subject.id} />
-                    <Button
-                      type="submit"
-                      size={"icon-sm"}
-                      variant={"destructive"}
-                    >
-                      <TrashIcon />
-                    </Button>
-                  </form>
+                  <div className="flex gap-2">
+                    <EditSubject subject={subject} />
+                    <form action={deleteSubject}>
+                      <Input name="id" type="hidden" value={subject.id} />
+                      <Button
+                        type="submit"
+                        size={"icon-sm"}
+                        variant={"destructive"}
+                      >
+                        <TrashIcon />
+                      </Button>
+                    </form>
+                  </div>
                 </div>
               </CardContent>
             </Card>

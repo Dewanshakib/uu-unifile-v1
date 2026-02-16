@@ -6,6 +6,7 @@ import { category } from "@/drizzle/schema";
 import { eq } from "drizzle-orm";
 import { TrashIcon } from "lucide-react";
 import { revalidatePath } from "next/cache";
+import EditCategory from "./edit-category-ui";
 
 export default async function CategoryContent() {
   const categories = await db.select().from(category);
@@ -29,16 +30,19 @@ export default async function CategoryContent() {
                   <h2 className="font-medium text-lg flex flex-row items-center gap-x-2">
                     {idx + 1}. {category.name}
                   </h2>
-                  <form action={deleteCategory}>
-                    <Input name="id" type="hidden" value={category.id} />
-                    <Button
-                      type="submit"
-                      size={"icon-sm"}
-                      variant={"destructive"}
-                    >
-                      <TrashIcon />
-                    </Button>
-                  </form>
+                  <div className="flex gap-2">
+                    <EditCategory category={category} />
+                    <form action={deleteCategory}>
+                      <Input name="id" type="hidden" value={category.id} />
+                      <Button
+                        type="submit"
+                        size={"icon-sm"}
+                        variant={"destructive"}
+                      >
+                        <TrashIcon />
+                      </Button>
+                    </form>
+                  </div>
                 </div>
               </CardContent>
             </Card>

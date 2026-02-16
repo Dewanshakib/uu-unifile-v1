@@ -17,6 +17,7 @@ export default async function CategoryPage({
     .from(category)
     .orderBy(asc(category.name));
     // console.log(section,semister,year);
+  // console.log("Categories ------------>",categories);
 
   return (
     <div className="mt-5">
@@ -26,7 +27,7 @@ export default async function CategoryPage({
         {categories.length > 0 ? (
           categories.map((c) => (
             <Link
-              href={`/files/year/${year}/semister/${semister}/section/${section}/category/${c.name}/files`}
+              href={`/files/year/${year}/semister/${semister}/section/${section}/category/${c.name?.trim()}/files`}
               key={c.id}
             >
               <Card className="p-10">

@@ -34,7 +34,7 @@ export default async function Files({
         eq(file.year, Number(year)),
         eq(file.semester, Number(semister)), // map semister to semester
         eq(file.section, section.toUpperCase()),
-        eq(file.category, category.toLowerCase())
+        eq(file.category, category)
       )
     )
     .orderBy(asc(file.title));

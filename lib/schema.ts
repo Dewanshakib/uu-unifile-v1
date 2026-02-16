@@ -67,8 +67,9 @@ export type ResetPasswordSchemaType = z.infer<typeof ResetPasswordSchema>;
 export const CategorySchema = z.object({
   category: z
     .string()
+    .trim()
     .max(30, { message: "Category name must be under 30 characters" })
-    .refine((c) => c.trim() !== "", { message: "Please enter category name" }),
+    .refine((c) => c !== "", { message: "Please enter category name" }),
 });
 
 export type CategoryInput = z.infer<typeof CategorySchema>;
@@ -77,8 +78,9 @@ export type CategoryInput = z.infer<typeof CategorySchema>;
 export const SubjectSchema = z.object({
   subject: z
     .string()
+    .trim()
     .max(30, { message: "Subject name must be under 30 characters" })
-    .refine((s) => s.trim() !== "", { message: "Please enter subject name" }),
+    .refine((s) => s !== "", { message: "Please enter subject name" }),
 });
 
 export type SubjectInput = z.infer<typeof SubjectSchema>;
@@ -87,17 +89,20 @@ export type SubjectInput = z.infer<typeof SubjectSchema>;
 export const FileSchema = z.object({
   title: z
     .string()
-    .refine((t) => t.trim() !== "", { message: "Please enter file name" }),
+    .trim()
+    .refine((t) => t !== "", { message: "Please enter file name" }),
   link: z
     .string()
+    .trim()
     .startsWith("https://", { message: "Please enter a valid link" })
-    .refine((s) => s.trim() !== "", {
+    .refine((s) => s !== "", {
       message: "Please enter file link",
     }),
   category: z
     .string({ message: "Select the category of the file" })
+    .trim()
     .max(50, { message: "Category name must be under 50 characters" })
-    .refine((c) => c.trim() !== "", {
+    .refine((c) => c !== "", {
       message: "Select the category of the file",
     }),
   fileType: z.enum(["PDF", "IMAGE"], {
@@ -106,15 +111,18 @@ export const FileSchema = z.object({
   }),
   section: z
     .string({ message: "Select the section for the file" })
+    .trim()
     .length(1, { message: "Section must be exactly 1 character" }),
   semester: z
     .string({ message: "Select the semester for the file" })
-    .refine((s) => s.trim() !== "", {
+    .trim()
+    .refine((s) => s !== "", {
       message: "Select the semester for this file",
     }),
   year: z
     .string({ message: "Select the year for the file" })
-    .refine((y) => y.trim() !== "", {
+    .trim()
+    .refine((y) => y !== "", {
       message: "Select the year for this file",
     }),
 });
@@ -125,30 +133,35 @@ export type FileInput = z.infer<typeof FileSchema>;
 export const GoogleClassroomSchema = z.object({
   course: z
     .string()
+    .trim()
     .max(300, { message: "Course title must be under 300 characters" })
-    .refine((t) => t.trim() !== "", { message: "Please enter course title" }),
+    .refine((t) => t !== "", { message: "Please enter course title" }),
   code: z
     .string()
+    .trim()
     .min(1, { message: "Code is required" })
-    .refine((s) => s.trim() !== "", {
+    .refine((s) => s !== "", {
       message: "Please enter google classroom code",
     }),
   instructor: z
     .string()
+    .trim()
     .max(30, { message: "Instructor name must be under 30 characters" })
-    .refine((i) => i.trim() !== "", {
+    .refine((i) => i !== "", {
       message: "Please enter instructor of this course",
     }),
   subject: z
     .string({ message: "Select the subject of the file" })
+    .trim()
     .max(30, { message: "Subject name must be under 30 characters" })
-    .refine((c) => c.trim() !== "", {
+    .refine((c) => c !== "", {
       message: "Select the subject of the file",
     }),
   section: z
     .string({ message: "Select the section for the file" })
+    .trim()
     .length(1, { message: "Section must be exactly 1 character" })
-    .refine((s) => s.trim() !== "", {
+    .refine((s) => s !== "", {
       message: "Select the section for this file",
     }),
   semester: z

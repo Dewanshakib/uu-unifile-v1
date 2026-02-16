@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FileInput, FileSchema } from "@/lib/schema";
 import { toast } from "sonner";
-import { addFile } from "@/actions/file";
+import { updateFile } from "@/actions/file";
 import {
   Select,
   SelectContent,
@@ -22,28 +22,39 @@ interface ICategory {
   categories: Array<{ name: string }>;
 }
 
-export default function AddFileForm({ categories }: ICategory) {
+interface IFile {
+  id: number;
+  title: string;
+  link: string;
+  category: string;
+  fileType: string;
+  section: string;
+  semester: number;
+  year: number;
+}
+
+export default function EditFileForm({ categories, file }: ICategory & { file: IFile }) {
   const router = useRouter();
   const {
-    handleSubmit,
+      handleSubmit,
     register,
     watch,
     trigger,
     setValue,
     formState: { errors, isSubmitting },
-  } = useForm<FileInput>({
+} = useForm<FileInput>({
     resolver: zodResolver(FileSchema),
     mode: "onChange",
     defaultValues: {
-      title: "",
-      link: "",
-      category: "",
-      // fileType: ,
-      section: "",
-      semester: "",
-      year: "",
+        title: file.title,
+        link: file.link,
+        category: file.category.trim(),
+        fileType: file.fileType as "PDF" || "IMAGE",
+        section: file.section,
+        semester: file.semester.toString(),
+        year: file.year.toString(),
     },
-  });
+});
   const categoryValue = watch("category");
   const fileTypeValue = watch("fileType");
   const sectionValue = watch("section");
@@ -53,7 +64,7 @@ export default function AddFileForm({ categories }: ICategory) {
   const onSubmit = async (data: FileInput) => {
     try {
       const formData = new FormData();
-      formData.set("category", data.category.toString());
+      formData.set("category", data.category);
       formData.set("title", data.title);
       formData.set("link", data.link);
       formData.set("fileType", data.fileType);
@@ -61,13 +72,13 @@ export default function AddFileForm({ categories }: ICategory) {
       formData.set("semester", data.semester);
       formData.set("year", data.year);
 
-      await addFile(formData);
+      await updateFile(file.id, formData);
 
-      toast.success("File uploaded successfully!");
+      toast.success("File updated successfully!");
       router.push("/dashboard/file");
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "Failed to upload file"
+        error instanceof Error ? error.message : "Failed to update file"
       );
     }
   };
@@ -110,7 +121,7 @@ export default function AddFileForm({ categories }: ICategory) {
         <div className="grid gap-2">
           <Label>Category</Label>
           <Select
-            value={categoryValue}
+            value={categoryValue} // ← CONTROLLED
             onValueChange={(value) => handleSelectChange("category", value)}
           >
             <SelectTrigger>
@@ -138,7 +149,7 @@ export default function AddFileForm({ categories }: ICategory) {
           <div className="grid gap-2">
             <Label>File Type</Label>
             <Select
-              value={fileTypeValue}
+              value={fileTypeValue} // ← CONTROLLED
               onValueChange={(value) => handleSelectChange("fileType", value)}
             >
               <SelectTrigger>
@@ -160,7 +171,7 @@ export default function AddFileForm({ categories }: ICategory) {
           <div className="grid gap-2">
             <Label>Section</Label>
             <Select
-              value={sectionValue}
+              value={sectionValue} // ← CONTROLLED
               onValueChange={(value) => handleSelectChange("section", value)}
             >
               <SelectTrigger>
@@ -185,7 +196,7 @@ export default function AddFileForm({ categories }: ICategory) {
           <div className="grid gap-2">
             <Label>Semester</Label>
             <Select
-              value={semesterValue}
+              value={semesterValue} // ← CONTROLLED
               onValueChange={(value) => handleSelectChange("semester", value)}
             >
               <SelectTrigger>
@@ -210,7 +221,7 @@ export default function AddFileForm({ categories }: ICategory) {
           <div className="grid gap-2">
             <Label>Year</Label>
             <Select
-              value={yearValue}
+              value={yearValue} // ← CONTROLLED
               onValueChange={(value) => handleSelectChange("year", value)}
             >
               <SelectTrigger>
@@ -230,28 +241,26 @@ export default function AddFileForm({ categories }: ICategory) {
           </div>
         </div>
 
-        <div className="flex gap-2 justify-end pt-4">
-          <Button
-            type="button"
-            variant="outline"
-            disabled={isSubmitting}
-            onClick={() => router.push("/dashboard/file")}
-          >
-            Cancel
-          </Button>
+        <div className="flex gap-2">
           <Button type="submit" disabled={isSubmitting}>
             {isSubmitting ? (
               <>
                 <Loader className="mr-2 h-4 w-4 animate-spin" />
-                Uploading...
+                Updating...
               </>
             ) : (
-              "Add File"
+              "Update File"
             )}
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => router.back()}
+          >
+            Cancel
           </Button>
         </div>
       </form>
     </div>
   );
 }
-

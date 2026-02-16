@@ -154,7 +154,7 @@ export default function AddFile({ categories }: ICategory) {
                   categories.map((cat, idx) => (
                     <SelectItem
                       key={idx}
-                      value={cat?.name?.toLowerCase() as string}
+                      value={cat.name}
                     >
                       {cat.name}
                     </SelectItem>
